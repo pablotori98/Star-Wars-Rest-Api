@@ -100,8 +100,18 @@ def modify_planet(planet_id):
 
     return jsonify(response)
 
+@app.route('/planets/<int:planets_id>', methods=['DELETE'])
+def delete_planets(planets_id):
+    get_planets_to_delete = Planets.query.filter_by(id=planets_id).first()
+    db.session.delete(get_planets_to_delete)
+    db.session.commit()
+    response_delete = {'msg' : 'Planeta borrado'}
+    return jsonify(response_delete)
+
+########################################
 ########################################
 #################PEOPLE#################
+########################################
 ########################################
 
 @app.route('/people', methods=['GET'])
@@ -163,8 +173,14 @@ def modify_person(people_id):
 
     return jsonify(response)
 
-
-
+#Eliminación de personaje
+@app.route('/people/<int:people_id>', methods=['DELETE'])
+def delete_people(people_id):
+    get_people_to_delete = People.query.filter_by(id=people_id).first()
+    db.session.delete(get_people_to_delete)
+    db.session.commit()
+    response_delete = {'msg' : 'Personaje borrado'}
+    return jsonify(response_delete)
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
